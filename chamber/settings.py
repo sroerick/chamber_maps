@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ["192.190.137.102"]
 # Application definition
 
 INSTALLED_APPS = [
+    'county',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,8 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'rest_framework_gis',
-    'county',
     'leaflet',
+    'colorfield',
 ]
 
 MIDDLEWARE = [
@@ -127,7 +128,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/chamber/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+#import ipdb; ipdb.set_trace()
 
 # Extra places for collectstatic to find static files.
 '''
@@ -140,3 +142,5 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DATA_UPLOAD_MAX_MEMORY_SIZE = 350000000
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000000

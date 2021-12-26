@@ -11,6 +11,14 @@
 </head>
 <body>
 	<div id="map"></div>
+	<div id="logoContainer">
+		<img url="{% static 'images/chamberlogo.jpg' %}"></img>
+	</div>
+  <script type="text/javascript">
+    var mapName = "{{mapname}}";
+    var mapDesc = "{{mapdescription}}";
+    var mapControl = "{{mapcontrol}}";
+  </script>
   <script src="{% static 'gis/js/map.js' %}"></script>
 </body>
 </html>

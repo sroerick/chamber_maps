@@ -5,17 +5,17 @@ from county.models import countyMap
 county_mapping = {
 'statefp' : 'STATEFP',
 'countyfp' : 'COUNTYFP',
-'cousubfp' : 'COUSUBFP',
-'cousubns' : 'COUSUBNS',
+'countyfp' : 'COUNTYFP',
+'countyns' : 'COUNTYNS',
 'geoid' : 'GEOID',
 'name' : 'NAME',
 'namelsad' : 'NAMELSAD',
 'lsad' : 'LSAD',
 'classfp' : 'CLASSFP',
 'mtfcc' : 'MTFCC',
-'cnectafp' : 'CNECTAFP',
-'nectafp' : 'NECTAFP',
-'nctadvfp' : 'NCTADVFP',
+'csafp' : 'CSAFP',
+'cbsafp' : 'CBSAFP',
+'metdivfp' : 'METDIVFP',
 'funcstat' : 'FUNCSTAT',
 'aland' : 'ALAND', 
 'awater' : 'AWATER', 
@@ -25,7 +25,7 @@ county_mapping = {
 }
 
 county_shp = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), 'data', 'tl_2021_17_cousub.shp'),
+        os.path.join(os.path.dirname(__file__), 'data', 'tl_2021_us_county.shp'),
 )
 
 def run(verbose=True):
