@@ -36,21 +36,21 @@ class countyMap(models.Model):
         return self.name
 
 class stateTiger(models.Model):
-    region = models.CharField(max_length=2)
-    division = models.CharField(max_length=2)
-    statefp = models.CharField(max_length=2)
-    statens = models.CharField(max_length=8)
-    geoid = models.CharField(max_length=2)
-    stusps = models.CharField(max_length=2)
-    name = models.CharField(max_length=100)
-    lsad = models.CharField(max_length=2)
-    mtfcc = models.CharField(max_length=5)
-    funcstat = models.CharField(max_length=1)
-    aland = models.BigIntegerField()
-    awater = models.BigIntegerField()
-    intptlat = models.CharField(max_length=11)
-    intptlon = models.CharField(max_length=12)
-    geom = models.MultiPolygonField(srid=4326)
+    region = geomodels.CharField(max_length=2)
+    division = geomodels.CharField(max_length=2)
+    statefp = geomodels.CharField(max_length=2)
+    statens = geomodels.CharField(max_length=8)
+    geoid = geomodels.CharField(max_length=2)
+    stusps = geomodels.CharField(max_length=2)
+    name = geomodels.CharField(max_length=100)
+    lsad = geomodels.CharField(max_length=2)
+    mtfcc = geomodels.CharField(max_length=5)
+    funcstat = geomodels.CharField(max_length=1)
+    aland = geomodels.BigIntegerField()
+    awater = geomodels.BigIntegerField()
+    intptlat = geomodels.CharField(max_length=11)
+    intptlon = geomodels.CharField(max_length=12)
+    geom = geomodels.MultiPolygonField(srid=4326)
 
 
 class countyData(models.Model):
@@ -99,3 +99,6 @@ class mapControl(models.Model):
     upper_limit=models.FloatField()
     color=ColorField()
     mapname=models.ForeignKey('county.mapMetaData', on_delete=models.CASCADE)
+
+
+

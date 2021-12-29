@@ -23,7 +23,7 @@ from county.admin import mapAdmin, admin_csv_import
 from county.api_views import UploadedDataAPIView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
     path('import/', admin_csv_import.urls),
     #path('admin/map', mapAdmin.asview()),
     path("map/", CountyDataView.as_view()),

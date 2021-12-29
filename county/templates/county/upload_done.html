@@ -1,1 +1,14 @@
-it worked
+{% extends 'admin/base_site.html' %}
+{% load i18n %}
+{% block content %}
+<h1>
+	Upload Successful
+
+
+</h1>
+<h2>
+	<a href="{% url 'admin' %}">
+		Return To Admin
+	</a>
+</h2>
+{% endblock %}

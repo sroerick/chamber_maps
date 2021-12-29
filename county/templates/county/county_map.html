@@ -8,11 +8,25 @@
     <link rel="stylesheet" type="text/css" href="{% static 'gis/css/map.css' %}">
   <link rel="stylesheet" type="text/css" href="//unpkg.com/leaflet/dist/leaflet.css">
   <script src="//unpkg.com/leaflet/dist/leaflet.js"></script>
+<style>
+#logoContainer {
+	  position: absolute;
+	    z-index: 100;
+	      top: 0;
+	        left: 100px;
+		  background-color: white;
+		    border: 1px solid black;
+		      width: 200px;
+		        height: 100px;
+}
+</style>
 </head>
 <body>
 	<div id="map"></div>
+	<div class ="leaflet-bottom leaflet-left>
 	<div id="logoContainer">
 		<img url="{% static 'images/chamberlogo.jpg' %}"></img>
+	</div>
 	</div>
   <script type="text/javascript">
     var mapName = "{{mapname}}";
@@ -20,6 +34,7 @@
     var mapControl = "{{mapcontrol}}";
   </script>
   <script src="{% static 'gis/js/map.js' %}"></script>
+
 </body>
 </html>
 
