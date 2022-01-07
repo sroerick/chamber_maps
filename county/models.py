@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.gis.db import models as geomodels
 from colorfield.fields import ColorField
+from django.utils.html import format_html
 
 # Create your models here.
 
@@ -93,6 +94,20 @@ class mapMetaData(models.Model):
     dateadded=models.DateField(auto_now_add=True)
     datemodified=models.DateField(auto_now=True)
     description=models.CharField(max_length=500)
+
+    class Meta:
+        verbose_name = "Map"
+        verbose_name_plural = "Maps"
+    
+    def map_url(self):
+        "returns the URL of the map."
+        return("hello")
+        '''
+        return format_html(
+                '<a href="http://192.190.137.102/chamber/map/>link</a>'
+                )
+                '''
+
 
 class mapControl(models.Model):
     lower_limit=models.FloatField()

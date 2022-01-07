@@ -15,7 +15,7 @@ class AcountyMapAdmin(admin.ModelAdmin):
     list_display=['countyfp', 'name']
 
 
-admin.site.register(exampleData)
+#admin.site.register(exampleData)
 
 @admin.register(countyData)
 #@admin.register(mapMetaData)
@@ -24,14 +24,25 @@ class countyAdmin(admin.ModelAdmin):
 
 class mapControlAdmin(admin.TabularInline):
     model = mapControl
+    extra = 0
 
 class csvDataTypeAdmin(admin.TabularInline):
     model = mapGeometry 
     fields = ('mapname', 'countyname', 'fips', 'floatdata', 'description')
+    extra = 0 
+
 class mapAdmin(admin.ModelAdmin):
     model = mapMetaData
     inlines = (mapControlAdmin, csvDataTypeAdmin)
+    fields = ('mapname', 'description')
+    readonly_fields=['map_url']
     list_display=['mapname', 'description']
+    change_list_template = 'county/mapMetaData/change_list.html'
+
+    
+
+
+
 
 admin.site.register(mapMetaData, mapAdmin)
 
@@ -42,6 +53,7 @@ class importComplete(TemplateView):
         return render(request, 'county/upload_done.html')
 
 class csvImport(AdminSite):
+    #need to fix permissions here:
     #@staff_member_required
     def custom_view(self, request):
         if request.method == "POST":
@@ -61,9 +73,8 @@ class csvImport(AdminSite):
         urls = super().get_urls()
         csv_urls = [
             #path('import/', self.admin_site.admin_view(self.custom_view))
-            path('', self.custom_view),
-            path('done/', importComplete.as_view(), name='import_done')
-        ]
+            path('', self.custom_view, name='importform'),
+            ]
         return csv_urls + urls
 
 admin_csv_import = csvImport()

@@ -5,9 +5,8 @@
 <head>
   <title>Markers Map</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'gis/css/map.css' %}">
+   <link rel="stylesheet" type="text/css" href="{% static 'gis/css/map.css' %}">
   <link rel="stylesheet" type="text/css" href="//unpkg.com/leaflet/dist/leaflet.css">
-  <script src="//unpkg.com/leaflet/dist/leaflet.js"></script>
 <style>
 #logoContainer {
 	  position: absolute;
@@ -33,8 +32,45 @@
     var mapDesc = "{{mapdescription}}";
     var mapControl = "{{mapcontrol}}";
   </script>
+    <script src="//unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="{% static 'gis/js/leaflet_export.js' %}"></script>
+  <script src="{% static 'gis/js/html2canvas.js' %}"></script>
   <script src="{% static 'gis/js/map.js' %}"></script>
+  <button id="exportBtn" onclick="downloadMap();">Экспорт в изображение без заголовка</button>
+   <button id="exportWithCaptionBtn" onclick="downloadMap('My leaflet map');">Экспорт в изображение с заголовком</button>
+  <button id="printBtn" onclick="printMap();">Печать без заголовка</button>
+   <button id="printWithCaptionBtn" onclick="printMap('My leaflet map');">Печать с заголовком</button>
+		<script>
 
+    function afterRender(result) {
+          return result;
+	      }
+
+    function afterExport(result) {
+          return result;
+	      }
+
+function downloadMap(caption) {
+      var downloadOptions = {
+container: map._container,
+caption: {
+text: caption,
+  font: '30px Arial',
+    fillStyle: 'black',
+position: [100, 200]
+	      },
+exclude: ['.leaflet-control-zoom', '.leaflet-control-attribution'],
+      format: 'image/png',
+fileName: 'Map.png',
+      afterRender: afterRender,
+afterExport: afterExport
+    };
+var promise = map.downloadExport(downloadOptions);
+var data = promise.then(function (result) {
+return result;
+});
+}
+		</script>
 </body>
 </html>
 
