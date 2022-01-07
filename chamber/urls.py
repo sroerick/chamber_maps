@@ -24,7 +24,7 @@ from county.api_views import UploadedDataAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
-    path('import/', admin_csv_import.urls),
+    path('import/', admin_csv_import.urls, name='import'),
     #path('admin/map', mapAdmin.asview()),
     path("map/", CountyDataView.as_view()),
     path("map/<slug:slug>/", UploadedDataView.as_view()),
