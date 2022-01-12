@@ -153,7 +153,7 @@ L.Control.Watermark = L.Control.extend({
 	    onAdd: function(map) {
 		            var img = L.DomUtil.create('img');
 
-		            img.src = '/chamber/static/images/chamberlogo.jpg';
+		            img.src = 'static/images/chamberlogo.jpg';
 		            img.style.width = '200px';
 
 		            return img;

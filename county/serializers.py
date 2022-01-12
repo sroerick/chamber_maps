@@ -27,6 +27,7 @@ class ExampleDataNokeySerializer(serializers.GeoFeatureModelSerializer):
         model = exampleDataNokey
 
 class UploadedDataSerializer(serializers.GeoFeatureModelSerializer):
+    geometry = serializers.GeometryField(precision=2, remove_duplicates=True)
     class Meta:
         fields = ("floatdata", "countyname", "description")
         geo_field = 'geometry'
