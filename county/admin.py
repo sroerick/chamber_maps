@@ -34,7 +34,7 @@ class csvDataTypeAdmin(admin.TabularInline):
 class mapAdmin(admin.ModelAdmin):
     model = mapMetaData
     inlines = (mapControlAdmin, csvDataTypeAdmin)
-    fields = ('mapname', 'description')
+    fields = ('mapname', 'description', 'slug')
     readonly_fields=['map_url']
     list_display=['mapname', 'description']
     change_list_template = 'county/mapMetaData/change_list.html'
