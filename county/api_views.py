@@ -29,7 +29,7 @@ class ExampleDataNokeyViewSet(viewsets.ReadOnlyModelViewSet):
 class UploadedDataAPIView(generics.ListAPIView):
     serializer_class = UploadedDataSerializer
     def get_queryset(self):
-        queryset = mapGeometry.objects.all().values('countyname', 'floatdata', 'description','geometry', 'mapname')
+        queryset = mapGeometry.objects.all().values('countyname', 'floatdata', 'description','geometry', 'mapname').simplify(0.0001)
         mapname = self.kwargs['slug']
         return mapGeometry.objects.filter(mapname__slug=mapname)
         #return mapGeometry.objects.all()
