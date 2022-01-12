@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8i(lkp^i0ksepw#hya%)w+@ut7abi@q3fjsvjy&vlk9!$5()hs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.190.137.102"]
+ALLOWED_HOSTS = ["chamber-maps.herokuapp.com","192.190.137.102"]
 
 
 # Application definition
