@@ -100,7 +100,7 @@ function onEachFeature(feature, layer) {
 async function load_counties() {
   const pathArray = window.location.pathname.split('/')
   const slug = pathArray.at(-2)
-  const counties_url = `/chamber/api/map/`+ slug + '/'
+  const counties_url = `/api/map/`+ slug + '/'
   const response = await fetch(counties_url)
   const json = await response.json()
   return json
