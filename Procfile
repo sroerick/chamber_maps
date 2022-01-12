@@ -1,1 +1,1 @@
-web: gunicorn chamber/wsgi.py
+web: gunicorn chamber.wsgi
