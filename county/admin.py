@@ -56,6 +56,7 @@ class csvImport(AdminSite):
     #@staff_member_required
     def custom_view(self, request):
         if request.method == "POST":
+
             form = MapGeometryInput(request.POST, request.FILES)
             #import ipdb;ipdb.set_trace()
             if form.is_valid():
