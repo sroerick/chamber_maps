@@ -1,7 +1,9 @@
-const copy = '© <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+const copy = 'Illinois Chamber | © <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
 const url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 const osm = L.tileLayer(url, { attribution: copy })
 const map = L.map('map', {
+  printable: true,
+  downloadable: true,
   center:L.latLng(40.6331,89.3985), 
   layers: [osm], 
   minZoom: 3 
@@ -98,7 +100,7 @@ function onEachFeature(feature, layer) {
 async function load_counties() {
   const pathArray = window.location.pathname.split('/')
   const slug = pathArray.at(-2)
-  const counties_url = `/chamber/api/map/`+ slug + '/'
+  const counties_url = `/api/map/`+ slug + '/'
   const response = await fetch(counties_url)
   const json = await response.json()
   return json
@@ -118,29 +120,40 @@ legend.onAdd = function (map) {
 upper_limit_sort()
 
     var div = L.DomUtil.create('div', 'info legend'),
-	grades = upper_limit_array,
-	labels = [];
-		var from, to;
-		for (var i = 0; i < grades.length; i++) {
-			from = grades[i];
-			to = grades[i + 1];
+		        grades = upper_limit_array,
+		        labels = [];
 
-			labels.push(
-				'<i style="background:' + getColorLive(from + 1) + '"></i> ' +
-			from + (to ? '&ndash;' + to : '+'));
-		}
+		var from, to;
+
+			for (var i = 0; i < grades.length; i++) {
+							from = grades[i];
+							to = grades[i + 1];
+
+							labels.push(
+												'<i style="background:' + getColorLive(from + 1) + '"></i> ' +
+												from + (to ? '&ndash;' + to : '+'));
+						}
+
 	div.innerHTML = labels.join('<br>');
      return div;
 }
 
 legend.addTo(map);
-
+/*
+var logo = L.control({position:'bottomleft'});
+logo.onAdd = function(map){
+	var div = L.DomUtil.create('div', 'logo');
+	div.innerHTML="<img src='static/images/chamberlogo.jpg' />";
+	return div;
+}
+logo.addTo(map);
+*/
 
 L.Control.Watermark = L.Control.extend({
 	    onAdd: function(map) {
 		            var img = L.DomUtil.create('img');
 
-		            img.src = 'static/img/chamberlogo.png';
+		            img.src = 'static/images/chamberlogo.jpg';
 		            img.style.width = '200px';
 
 		            return img;
@@ -151,11 +164,11 @@ L.Control.Watermark = L.Control.extend({
 		         }
 		         });
 		    
-		        L.control.watermark = function(opts) {
-		            return new L.Control.Watermark(opts);
-		            }
-		   
-		           L.control.watermark({ position: 'bottomleft' }).addTo(map)
-
+		       L.control.watermark = function(opts) {
+		             return new L.Control.Watermark(opts);
+		             }
+		    
+		           L.control.watermark({ position: 'bottomleft' }).addTo(map);
 
 map.whenReady(render_counties)
+

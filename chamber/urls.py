@@ -10,9 +10,9 @@ from county.api_views import UploadedDataAPIView
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls, name='admin'),
-    path('import/', admin_csv_import.urls, name='import'),
+    path('import/', admin_csv_import.urls, name='importcsv'),
     path("map/", CountyDataView.as_view()),
-    path("map/<slug:slug>/", UploadedDataView.as_view()),
+    path("map/<slug:slug>/", UploadedDataView.as_view(), name="map"),
     path("api/map/<slug:slug>/", UploadedDataAPIView.as_view()),
     path("example/", ExampleDataView.as_view()),
     path("example2/", ExampleDataNokeyView.as_view()),

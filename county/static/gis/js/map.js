@@ -25,21 +25,6 @@ function getColorLive(d) {
   }
 }
 
-//map.fitWorld();
-
-/*
-function getColor(d) {
-	    return d > 75000 ? '#800026' :
-		   d > 50000  ? '#BD0026' :
-		   d > 25000  ? '#E31A1C' :
-		   d > 10000  ? '#FC4E2A' :
-		   d > 5000   ? '#FD8D3C' :
-		   d > 2500   ? '#FEB24C' :
-		   d > 1000   ? '#FED976' :
-			      '#FFEDA0' ;
-}
-*/
-
 var info = L.control();
 
 info.onAdd = function (map) {
@@ -89,13 +74,38 @@ function resetHighlight(e) {
 	function zoomToFeature(e) {
 				map.fitBounds(e.target.getBounds());
 			}
-function onEachFeature(feature, layer) {
-	    layer.on({
-		            mouseover: highlightFeature,
-		            mouseout: resetHighlight,
-		            click: zoomToFeature
-		        });
+
+
+function onEachFeature(feature, layer) { 
+      if (feature.properties.countyname == "Boone") {
+      var size = [25, 40]
+      }
+      else {
+      var size =  [35,20]}
+	
+	var label = L.marker(layer.getBounds().getCenter(), {
+	      icon: L.divIcon({
+                      iconSize: size,
+	              className: 'label',
+		      html: "<span style='font-size:8px;'>" + feature.properties.countyname + "</span>",
+				            })
+					        }).addTo(map);
+      }
+	/*
+				  	  permanent: true,
+				          direction: "center",
+					  html: feature.properties.countyname,
+					  iconSize: [100, 40]
+					})
+			}.addTo(map))kkk
+		  }
 }
+	    //layer.on({
+		            //mouseover: highlightFeature,
+		            //mouseout: resetHighlight,
+		            //click: zoomToFeature
+		        //});
+//*/
 
 async function load_counties() {
   const pathArray = window.location.pathname.split('/')
@@ -139,15 +149,6 @@ upper_limit_sort()
 }
 
 legend.addTo(map);
-/*
-var logo = L.control({position:'bottomleft'});
-logo.onAdd = function(map){
-	var div = L.DomUtil.create('div', 'logo');
-	div.innerHTML="<img src='static/images/chamberlogo.jpg' />";
-	return div;
-}
-logo.addTo(map);
-*/
 
 L.Control.Watermark = L.Control.extend({
 	    onAdd: function(map) {
@@ -167,8 +168,6 @@ L.Control.Watermark = L.Control.extend({
 		       L.control.watermark = function(opts) {
 		             return new L.Control.Watermark(opts);
 		             }
-		    
 		           L.control.watermark({ position: 'bottomleft' }).addTo(map);
-
 map.whenReady(render_counties)
 

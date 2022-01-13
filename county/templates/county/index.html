@@ -1,8 +1,17 @@
 {% extends 'county/base.html' %}
 {% block content %}
-<a href='/import/'> 
-	Upload a new map
-</a>
-<a href='/admin/county/mapmetadata/'> 
-	See existing maps
+
+<div class="two_big_buttons">
+	<div class="big_button">
+
+		<a href='/import/'> 
+			Upload a new map
+		</a>
+		</div>
+	<div class="big_button">
+		<a href='/admin/county/mapmetadata/'> 
+			See existing maps
+		</a>
+	</div>
+</div>
 {% endblock %}

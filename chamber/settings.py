@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'chamber.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'chamber',
+        'NAME': 'chamber2',
         'USER': 'postgres',
         'PASSWORD': 'administrator',
         'HOST': '127.0.0.1',

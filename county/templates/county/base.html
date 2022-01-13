@@ -1,5 +1,9 @@
 <html>
 	<head>
+	{% load static %}
+	  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+	  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
 		<title>
 		Illinois Mapping Tool
 		</title>
@@ -9,6 +13,7 @@
 			<h1>Illinois Chamber Mapping Tool</h1>
 		{% endblock %}
 		{% block user %}
+		<div class="user_bar">
 		<h4>
 			{% if user.is_authenticated %}
 			{{ request.user }} | <a href="#" onClick="document.getElementById('logoutform').submit()"><button type="button">Logout</button></a>
@@ -20,6 +25,7 @@
 				<a href="{% url 'county:logout' %}">login</a>
 				{% endif %}
 		</h4>
+		</div>
 		{% endblock %}
 		
 		<div class="content">
