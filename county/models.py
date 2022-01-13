@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.gis.db import models as geomodels
 from colorfield.fields import ColorField
 from django.utils.html import format_html
+from django.urls import reverse 
 
 # Create your models here.
 
@@ -99,14 +100,9 @@ class mapMetaData(models.Model):
         verbose_name = "Map"
         verbose_name_plural = "Maps"
     
-    def map_url(self):
-        "returns the URL of the map."
-        return("hello")
-        '''
-        return format_html(
-                '<a href="http://192.190.137.102/chamber/map/>link</a>'
-                )
-                '''
+    def get_absolute_url(self):
+        #return "/map/%i/" % self.slug
+        return reverse('map', kwargs={'slug': self.slug})
 
 
 class mapControl(models.Model):

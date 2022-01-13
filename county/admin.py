@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import AdminSite
-from .models import countyMap, countyData, exampleData, mapControl, mapMetaData, mapGeometry
+from .models import countyMap, countyData, exampleData, mapControl, mapMetaData, mapGeometry, stateTiger
 from django.conf.urls import url 
 from django.urls import path
 from county.forms import MapGeometryInput
@@ -14,6 +14,9 @@ from django.views.generic import TemplateView
 class AcountyMapAdmin(admin.ModelAdmin):
     list_display=['countyfp', 'name']
 
+@admin.register(stateTiger)
+class stateTiger(admin.ModelAdmin):
+    list_display=['statefp', 'name']
 
 #admin.site.register(exampleData)
 
@@ -35,15 +38,11 @@ class mapAdmin(admin.ModelAdmin):
     model = mapMetaData
     inlines = (mapControlAdmin, csvDataTypeAdmin)
     fields = ('mapname', 'description', 'slug')
-    readonly_fields=['map_url']
+    #readonly_fields=['map_url']
     list_display=['mapname', 'description']
     change_list_template = 'county/mapMetaData/change_list.html'
 
     
-
-
-
-
 admin.site.register(mapMetaData, mapAdmin)
 
 class importComplete(TemplateView):
