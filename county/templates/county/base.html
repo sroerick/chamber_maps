@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<title>
+		Illinois Mapping Tool
+		</title>
+	</head>
+	<body>
+		{% block sitetitle %}
+			<h1>Illinois Chamber Mapping Tool</h1>
+		{% endblock %}
+		{% block user %}
+		<h4>
+			{% if user.is_authenticated %}
+			{{ request.user }} | <a href="#" onClick="document.getElementById('logoutform').submit()"><button type="button">Logout</button></a>
+			<form id="logoutform" method="POST" action={% url 'county:logout' %}"> 
+			{% csrf_token %}
+				<input type="hidden">
+			</form>
+				{% else %}
+				<a href="{% url 'county:logout' %}">login</a>
+				{% endif %}
+		</h4>
+		{% endblock %}
+		
+		<div class="content">
+			<p> 
+			{% block content %} 
+			Hello
+			{% endblock %} 
+			</p>
+		</div>
+	</body>
+</html>
+	

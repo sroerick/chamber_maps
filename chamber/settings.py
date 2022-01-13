@@ -150,3 +150,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DATA_UPLOAD_MAX_MEMORY_SIZE = 350000000
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000000
 #django_heroku.settings(locals())
+LOGIN_REDIRECT_URL ='/'
