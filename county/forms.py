@@ -1,7 +1,8 @@
 
 from django import forms
-from county.models import countyMap, mapGeometry, mapMetaData
+from county.models import countyMap, mapGeometry, mapMetaData, stateTiger
 from django.contrib.postgres.search import TrigramSimilarity
+from django.template.defaultfilters import slugify
 import csv
 def set_field_html_name(cls, new_name):
     old_render = cls.widget.render
@@ -18,6 +19,7 @@ MAP_CHOICES = [
 class MapGeometryInput(forms.Form):
     import_file = forms.FileField()
     text = forms.CharField()
+    description = forms.CharField()
     form_select = forms.ChoiceField(choices=MAP_CHOICES)
 
 
@@ -40,7 +42,8 @@ class MapGeometryInput(forms.Form):
         for line in records:
            metadata = mapMetaData.objects.get_or_create(
                 mapname = self.cleaned_data["text"],
-                description = self.cleaned_data["text"]
+                slug = slugify(self.cleaned_data["text"]),
+                description = self.cleaned_data["description"]
            )
            if self.cleaned_data["form_select"] == 'countyMap':
                 polygon_name = line[0]
@@ -57,14 +60,17 @@ class MapGeometryInput(forms.Form):
                 input_data.floatdata = line[1].replace(",", "")
                 input_data.description = line[2]
                 input_data.geometry = map_object.geometry
-                input_data.mapname = mapMetaData.objects.get(mapname=self.cleaned_data["text"])
+                input_data.mapname = stateTiger.objects.get(mapname=self.cleaned_data["text"])
                 input_data.save()
-           elif self.cleaned_data["form_select"] == 'countyMap':
+           elif self.cleaned_data["form_select"] == 'stateTiger':
                input_data = mapGeometry()
                input_data.countyname = line[0]
                input_data.fips = stateTiger.objects.get(name=(line[0])).statefp
                input_data.floatdata = line[1].replace(",", "")
-               input_data.description = line[2]
-               input_data.geometry = stateTiger.objects.get(name=(line[0])).geometry
+               try:
+                   input_data.description = line[2]
+               except(IndexError): 
+                   input_data.description = " " 
+               input_data.geometry = stateTiger.objects.get(name=(line[0])).geom
                input_data.mapname = mapMetaData.objects.get(mapname=self.cleaned_data["text"])
                input_data.save()

@@ -48,11 +48,11 @@ county_shp = os.path.abspath(
 )
 
 state_shp = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), 'data', 'tl_2017_us_state.shp'),
+        os.path.join(os.path.dirname(__file__), '../../statedata', 'tl_2017_us_state.shp'),
 )
 
 def run(verbose=True):
-    county_lm = LayerMapping(countyMap, county_shp, county_mapping, transform=True)
-    countylm.save(strict=True, verbose=verbose)
-    state_lm = LayerMapping(countyMap, county_shp, county_mapping, transform=True)
-    statelm.save(strict=True, verbose=verbose)
+    #county_lm = LayerMapping(countyMap, county_shp, county_mapping, transform=True)
+    #countylm.save(strict=True, verbose=verbose)
+    state_lm = LayerMapping(stateTiger, state_shp, statefips_mapping, transform=True)
+    state_lm.save(strict=True, verbose=verbose)
