@@ -25,6 +25,8 @@ class countyMap(models.Model):
     awater = geomodels.BigIntegerField()
     intptlat = geomodels.CharField(max_length=11, blank=True, null=True)
     intptlon = geomodels.CharField(max_length=12, blank=True, null=True)
+    offsetx = geomodels.FloatField(default=0)
+    offsety = geomodels.FloatField(default=0)
     geometry = geomodels.MultiPolygonField(srid=4326)
 
     class Meta:
@@ -52,6 +54,8 @@ class stateTiger(models.Model):
     awater = geomodels.BigIntegerField()
     intptlat = geomodels.CharField(max_length=11)
     intptlon = geomodels.CharField(max_length=12)
+    offsetx = geomodels.FloatField(default=0)
+    offsety = geomodels.FloatField(default=0)
     geom = geomodels.MultiPolygonField(srid=4326)
 
 
@@ -87,6 +91,8 @@ class mapGeometry(models.Model):
     fips=models.CharField(max_length=5)
     floatdata=models.FloatField()
     description=models.CharField(max_length=500, null=True, blank=True)
+    offsetx = geomodels.FloatField(default=0)
+    offsety = geomodels.FloatField(default=0)
     geometry=geomodels.MultiPolygonField(srid=4326)
 
 class mapMetaData(models.Model):
@@ -95,6 +101,7 @@ class mapMetaData(models.Model):
     dateadded=models.DateField(auto_now_add=True)
     datemodified=models.DateField(auto_now=True)
     description=models.CharField(max_length=500)
+    declutter=models.BooleanField(default=True)
 
     class Meta:
         verbose_name = "Map"

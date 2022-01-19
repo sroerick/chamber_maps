@@ -35,7 +35,24 @@
 	    const json = await response.json()
 	    return(json)
     }*/
-    
+
+
+	const parsed = JSON.parse(mapControl.replaceAll('&quot','"').replaceAll(';',''))
+	const upper_limit_array = [0]
+	const upper_limit_sort = function () {
+		for (i=0; i < parsed.length; i++) {
+				upper_limit_array.push(parsed[i].fields.upper_limit)
+				}
+}
+    function getColorLive(d) {
+      for (i=0; i < parsed.length; i++) {
+	  if (d >=parsed[i].fields.lower_limit && d <=parsed[i].fields.upper_limit)
+	    return parsed[i].fields.color
+		        }
+    }
+
+
+
     function render_counties() {
         const pathArray = window.location.pathname.split('/')
         const slug = pathArray.at(-2)
@@ -49,7 +66,8 @@
 	})
 	const shapeLayer = new ol.layer.Vector({
 		source: shapeSource,
-		style: styleFunction
+		style: styleFunction,
+		declutter: true
 	});
 	    map.addLayer(shapeLayer);
     }
@@ -66,7 +84,7 @@
 			            zoom: 6
 			          })
 		    });
-
+/*
     styleFunction = function(feature) {
 	    let colors = ['red', 'blue', 'green', 'pink']
 	      let stroke = new ol.style.Stroke({ color: 'yellow', width: 1 });
@@ -74,8 +92,17 @@
 	      let fill = new ol.style.Fill({ color: colors[randomIndex] });
 	      let style = new ol.style.Style({ stroke: stroke, fill: fill }); 
 	    return style;
+    }*/
+    styleFunction = function(feature) {
+	      let countyname= feature.A.countyname 
+	      let floatvalue = feature.A.floatdata
+	    let description = countyname + "\n" + floatvalue
+	    let text = new ol.style.Text({text: description, font:'7px sans-serif', overflow:true })
+	      let stroke = new ol.style.Stroke({ color: 'yellow', width: 1 });
+	      let fill = new ol.style.Fill({ color: getColorLive(floatvalue) });
+	      let style = new ol.style.Style({ stroke: stroke, fill: fill, text: text }); 
+	    return style;
     }
-
 render_counties()
   </script>
 </html>
