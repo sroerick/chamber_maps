@@ -26,19 +26,30 @@
     var mapControl = "{{mapcontrol}}";
   </script>
   <script type="text/javascript">
+	  /*
     async function load_counties() {
-	    const pathArray = window.location.pathname.split('/')
-	    const slug = pathArray.at(-2)
+        const pathArray = window.location.pathname.split('/')
+        const slug = pathArray.at(-2)
 	    const counties_url = `/api/map/` + slug + '/'
 	    const response = await fetch(counties_url)
 	    const json = await response.json()
 	    return(json)
-    }
+    }*/
     
-    async function render_counties() {
-	const counties = await load_counties()
+    function render_counties() {
+        const pathArray = window.location.pathname.split('/')
+        const slug = pathArray.at(-2)
+        const counties_url = `/api/map/` + slug + '/'
+	//const counties = await load_counties()
+	const shapeSource = new ol.source.Vector({
+		ratio: 1, 
+		params: {'LAYERS': 'show:0'},
+		url: counties_url,
+		format: new ol.format.GeoJSON()
+	})
 	const shapeLayer = new ol.layer.Vector({
-		source: counties
+		source: shapeSource,
+		style: styleFunction
 	});
 	    map.addLayer(shapeLayer);
     }
@@ -55,6 +66,17 @@
 			            zoom: 6
 			          })
 		    });
+
+    styleFunction = function(feature) {
+	    let colors = ['red', 'blue', 'green', 'pink']
+	      let stroke = new ol.style.Stroke({ color: 'yellow', width: 1 });
+	      let randomIndex = Math.floor( Math.random() * 9 );
+	      let fill = new ol.style.Fill({ color: colors[randomIndex] });
+	      let style = new ol.style.Style({ stroke: stroke, fill: fill }); 
+	    return style;
+    }
+
+render_counties()
   </script>
 </html>
 

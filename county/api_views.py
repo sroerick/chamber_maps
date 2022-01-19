@@ -31,11 +31,7 @@ class UploadedDataAPIView(generics.ListAPIView):
     def get_queryset(self):
         queryset = mapGeometry.objects.all().values('countyname', 'floatdata', 'description','geometry', 'mapname')
         mapname = self.kwargs['slug']
-<<<<<<< HEAD
-        return mapGeometry.objects.filter(mapname__slug=mapname).geometry.simplify
-=======
         return mapGeometry.objects.filter(mapname__slug=mapname)
->>>>>>> c44398f262d9c406063b06406b6841820f33d4be
         #return mapGeometry.objects.all()
 
 '''
