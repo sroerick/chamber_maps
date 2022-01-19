@@ -61,3 +61,18 @@ class UploadedDataView(TemplateView):
         context['mapcontrol'] = mapcontroljson
         return context
 
+class OLMapView(TemplateView):
+    template_name = "county/olmap.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mapslug = self.kwargs['slug']
+        mapmeta = mapMetaData.objects.get(slug=mapslug)
+        mapcontrol = mapControl.objects.filter(mapname_id=mapmeta.id)
+        mapcontroljson = serializers.serialize('json', mapcontrol)
+        context['mapname'] = mapmeta.mapname
+        context['mapdescription'] = mapmeta.description
+        context['slug'] = mapslug
+        context['mapcontrol'] = mapcontroljson
+        return context
+

@@ -1,0 +1,60 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Markers Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="{% static 'gis/css/olmap.css' %}">
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/build/ol.js"></script>
+
+<style>
+
+
+.map {
+      height: 700px;
+      width: 100%;
+          }
+	  
+</style>
+<body>
+	<div id="map" class="map"></div>
+	</div>
+  <script type="text/javascript">
+    var mapName = "{{mapname}}";
+    var mapDesc = "{{mapdescription}}";
+    var mapControl = "{{mapcontrol}}";
+  </script>
+  <script type="text/javascript">
+    async function load_counties() {
+	    const pathArray = window.location.pathname.split('/')
+	    const slug = pathArray.at(-2)
+	    const counties_url = `/api/map/` + slug + '/'
+	    const response = await fetch(counties_url)
+	    const json = await response.json()
+	    return(json)
+    }
+    
+    async function render_counties() {
+	const counties = await load_counties()
+	const shapeLayer = new ol.layer.Vector({
+		source: counties
+	});
+	    map.addLayer(shapeLayer);
+    }
+	  var map = new ol.Map({
+		      target: 'map',
+		      controls: ol.control.defaults({ attribution: false }),
+		      layers: [
+			            new ol.layer.Tile({
+					            source: new ol.source.OSM()
+					          })
+			          ],
+		      view: new ol.View({
+			            center: ol.proj.fromLonLat([-89.29, 40.63]),
+			            zoom: 6
+			          })
+		    });
+  </script>
+</html>
+
