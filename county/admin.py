@@ -10,17 +10,17 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 # Register your models here.
-@admin.register(countyMap)
+#@admin.register(countyMap)
 class AcountyMapAdmin(admin.ModelAdmin):
     list_display=['countyfp', 'name']
 
-@admin.register(stateTiger)
+#@admin.register(stateTiger)
 class stateTiger(admin.ModelAdmin):
     list_display=['statefp', 'name']
 
 #admin.site.register(exampleData)
 
-@admin.register(countyData)
+#@admin.register(countyData)
 #@admin.register(mapMetaData)
 class countyAdmin(admin.ModelAdmin):
    list_display=['county','data','collection']
