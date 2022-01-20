@@ -20,6 +20,8 @@
     var fontSize = {{fontsize}};
     var mapDeclutterTemplate = "{{mapdeclutter}}";
     let mapDeclutter = (mapDeclutterTemplate == "True")
+    var showOsmTemplate = "{{showosm}}";
+    let showOsm = (showOsmTemplate == "True")
 
 
     function toggle_visibility(id) {
@@ -133,19 +135,28 @@
 	});
 	    map.addLayer(shapeLayer);
     }
-	  var map = new ol.Map({
+    
+	if (showOsm == true) {
+		var map = new ol.Map({
 		      target: 'map',
 		      controls: ol.control.defaults({ attribution: false }),
-		      layers: [
-			            new ol.layer.Tile({
-					            source: new ol.source.OSM()
-					          })
-			          ],
+		      layers: [new ol.layer.Tile({source: new ol.source.OSM()})],
 		      view: new ol.View({
 			            center: ol.proj.fromLonLat(mapLonLat),
 			            zoom: mapZoom
 			          })
 		    });
+          } else  {
+	  var map = new ol.Map({
+		      target: 'map',
+		      controls: ol.control.defaults({ attribution: false }),
+		      layers: [],
+		      view: new ol.View({
+			            center: ol.proj.fromLonLat(mapLonLat),
+			            zoom: mapZoom
+			          })
+	  })
+	  }
     styleFunction = function(feature) {
 		      console.log(fontInlayColor, fontInlayWeight)
 	      let countyname= feature.A.countyname 

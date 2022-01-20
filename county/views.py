@@ -83,6 +83,7 @@ def OLMapViewTwo(request, slug):
     context['slug'] = mapslug
     context['mapcontroljson'] = mapcontroljson
     context['mapcontrol'] = mapcontrol
+    context['showosm'] = mapmeta.show_osm
     if (mapmeta.make_private == True) and not request.user.is_authenticated:
          return redirect('/accounts/login/?next=%s' % request.path)
     else:
