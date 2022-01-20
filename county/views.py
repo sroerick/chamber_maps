@@ -72,6 +72,7 @@ class OLMapView(TemplateView):
         mapcontroljson = serializers.serialize('json', mapcontrol)
         context['mapname'] = mapmeta.mapname
         context['mapdescription'] = mapmeta.description
+        context['mapdeclutter'] = mapmeta.declutter
         context['slug'] = mapslug
         context['mapcontrol'] = mapcontroljson
         return context

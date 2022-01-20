@@ -31,14 +31,13 @@ class mapControlAdmin(admin.TabularInline):
 
 class csvDataTypeAdmin(admin.TabularInline):
     model = mapGeometry 
-    fields = ('mapname', 'countyname', 'fips', 'floatdata', 'description')
+    fields = ('mapname', 'countyname', 'fips', 'floatdata', 'description', 'offsetx', 'offsety')
     extra = 0 
 
 class mapAdmin(admin.ModelAdmin):
     model = mapMetaData
     inlines = (mapControlAdmin, csvDataTypeAdmin)
-    fields = ('mapname', 'description', 'slug')
-    #readonly_fields=['map_url']
+    fields = ('mapname', 'description', 'slug', 'declutter')
     list_display=['mapname', 'description']
     change_list_template = 'county/mapMetaData/change_list.html'
 

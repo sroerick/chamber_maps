@@ -3,7 +3,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>Markers Map</title>
+  <script type="text/javascript">
+    var mapName = "{{mapname}}";
+    var mapDesc = "{{mapdescription}}";
+    var mapControl = "{{mapcontrol}}";
+    var mapDeclutterTemplate = "{{mapdeclutter}}";
+    let mapDeclutter = (mapDeclutterTemplate == "True")
+  </script>
+  <title>{{mapname}}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="stylesheet" type="text/css" href="{% static 'gis/css/olmap.css' %}">
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/build/ol.js"></script>
@@ -19,12 +26,8 @@
 </style>
 <body>
 	<div id="map" class="map"></div>
-	</div>
-  <script type="text/javascript">
-    var mapName = "{{mapname}}";
-    var mapDesc = "{{mapdescription}}";
-    var mapControl = "{{mapcontrol}}";
-  </script>
+	<a id="export-png" class="btn btn-default"><i class="fa fa-download"></i> Download PNG</a>
+	    <a id="image-download" download="map.png"></a>
   <script type="text/javascript">
 	  /*
     async function load_counties() {
@@ -67,7 +70,7 @@
 	const shapeLayer = new ol.layer.Vector({
 		source: shapeSource,
 		style: styleFunction,
-		declutter: true
+		declutter: mapDeclutter
 	});
 	    map.addLayer(shapeLayer);
     }
@@ -96,14 +99,81 @@
     styleFunction = function(feature) {
 	      let countyname= feature.A.countyname 
 	      let floatvalue = feature.A.floatdata
-	    let description = countyname + "\n" + floatvalue
-	    let text = new ol.style.Text({text: description, font:'7px sans-serif', overflow:true })
+	      let offsetx = feature.A.offsetx
+	      let offsety = feature.A.offsety
+	      let description = countyname + "\n" + floatvalue
+	      let text = new ol.style.Text({
+	 	 text: description, 
+	  	 font:'9px sans-serif', 
+	         overflow:true,  
+	  	 offsetX: offsetx, 
+	         offsetY:offsety })
 	      let stroke = new ol.style.Stroke({ color: 'yellow', width: 1 });
 	      let fill = new ol.style.Fill({ color: getColorLive(floatvalue) });
 	      let style = new ol.style.Style({ stroke: stroke, fill: fill, text: text }); 
 	    return style;
     }
+
+	  document.getElementById('export-png').addEventListener('click', function () {
+	    map.once('rendercomplete', function () {
+	      const mapCanvas = document.createElement('canvas');
+	      const size = map.getSize();
+		mapCanvas.width = size[0];
+		mapCanvas.height = size[1];
+		const mapContext = mapCanvas.getContext('2d');
+		Array.prototype.forEach.call(
+		      map.getViewport().querySelectorAll('.ol-layer canvas, canvas.ol-layer'),
+		      function (canvas) {
+		         if (canvas.width > 0) {
+				const opacity =
+			        canvas.parentNode.style.opacity || canvas.style.opacity;
+				mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+				const backgroundColor = canvas.parentNode.style.backgroundColor;
+				if (backgroundColor) {
+				    mapContext.fillStyle = backgroundColor;
+				    mapContext.fillRect(0, 0, canvas.width, canvas.height);
+				  }
+				let matrix;
+				const transform = canvas.style.transform;
+				if (transform) {
+			        // Get the transform parameters from the style's transform matrix
+			        matrix = transform
+				.match(/^matrix\(([^\(]*)\)$/)[1]
+			        .split(',')
+			        .map(Number);
+			} else {
+			        matrix = [
+			           parseFloat(canvas.style.width) / canvas.width,
+				  0,
+				  0,
+				  parseFloat(canvas.style.height) / canvas.height,
+				  0,
+				  0,
+				];
+	  }
+// Apply the transform to the export map context
+CanvasRenderingContext2D.prototype.setTransform.apply(
+			    mapContext,
+		    matrix
+		  );
+mapContext.drawImage(canvas, 0, 0);
+}
+}
+);
+	    if (navigator.msSaveBlob) {
+			  // link download attribute does not work on MS browsers
+			  navigator.msSaveBlob(mapCanvas.msToBlob(), 'map.png');
+			} else {
+				      const link = document.getElementById('image-download');
+				      link.href = mapCanvas.toDataURL();
+				      link.click();
+				    }
+	  });
+map.renderSync();
+});
+
 render_counties()
   </script>
+
 </html>
 
