@@ -86,7 +86,7 @@
 	</div>
 	<div id="advanced">
 		<form>
-			<p>Embed:<input type="text"></p>
+			<p>Embed:<input id="embed" type="text"></p>
 			<p>Lonlat<input id="lonlat" type="text"></p>
 			<p>Zoom:<input id="zoom"type="text"></p>
 
@@ -167,7 +167,7 @@
 	      let style = new ol.style.Style({ stroke: stroke, fill: fill, text: text }); 
 	    return style;
     }
-
+/*
 	  document.getElementById('export-png').addEventListener('click', function () {
 	    map.once('rendercomplete', function () {
 	      const mapCanvas = document.createElement('canvas');
@@ -224,15 +224,17 @@ mapContext.drawImage(canvas, 0, 0);
 				    }
 	  });
 map.renderSync();
-});
+});*/
 
 render_counties()
 this.map.on('pointermove', function (e) {
     if (e.dragging) {
-	    document.getElementById("lonlat").value = ol.proj.toLonLat(map.getView().getCenter());
-	    document.getElementById("zoom").value = map.getView().getZoom();
+	    document.getElementById("lonlat").value = ol.proj.toLonLat(map.getView().getCenter())
+	    document.getElementById("zoom").value = map.getView().getZoom()
 		}
 });
+document.getElementById("advanced").style.display = 'none'
+document.getElementById("embed").value = '<iframe src="' + window.location.href + '" height="400" width="800" title="Chamber iFrame"></iframe>'
   </script>
 
 </html>
