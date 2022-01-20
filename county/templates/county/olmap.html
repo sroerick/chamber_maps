@@ -6,7 +6,12 @@
   <script type="text/javascript">
     var mapName = "{{mapname}}";
     var mapDesc = "{{mapdescription}}";
+    var preLonLat = "{{maplonlat}}";
+    var mapLonLat = JSON.parse("[" + preLonLat + "]");
+
+    var mapZoom = "{{mapzoom}}";
     var mapControl = "{{mapcontrol}}";
+    var mapControlJSON = "{{mapcontroljson}}";
     var lineColor = "{{linecolor}}";
     var fontColor = "{{fontcolor}}";
     var fontInlayColor = "{{fontinlaycolor}}";
@@ -15,10 +20,20 @@
     var fontSize = {{fontsize}};
     var mapDeclutterTemplate = "{{mapdeclutter}}";
     let mapDeclutter = (mapDeclutterTemplate == "True")
+
+
+    function toggle_visibility(id) {
+	           var e = document.getElementById(id);
+	           if(e.style.display == 'block')
+		              e.style.display = 'none';
+	           else
+		              e.style.display = 'block';
+	        }
   </script>
   <title>{{mapname}}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" type="text/css" href="{% static 'gis/css/olmap.css' %}">
+   	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'gis/css/olmap.css' %}">
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.12.0/build/ol.js"></script>
 
 <style>
@@ -56,37 +71,35 @@
 		}
 </style>
 <body>
-	<!-- A<div id="topbar" class="topbar">hello</div>-->
 <div id="map" class="map"></div>
 <div id="sidebar" class="sidebar">
 	<h1>{{mapname}}</h1>
-	<h4>{{mapdescription}}</h4>
-	<!--<h4><script>map.getView().getCenter()</script></h4>-->
-	<h4><script></script></h4>
-	<form>
-		Embed:<input type="text">
-		Lonlat<input id="lonlat" type="text">
-		Zoom:<input id="zoom"type="text">
+	<h3>{{mapdescription}}</h3>
+	<div class="legend">
+			<h4>Legend</h4>
+		{% for leg in mapcontrol %}
+		<p><i class="fas fa-square" style="color:{{leg.color}}"></i>{{leg.lower_limit}}-{{leg.upper_limit}}</p>
+		{% endfor %}
+	</div>
+	<div class="advanced-control">
+		<a href="#" onclick="toggle_visibility('advanced')"><p>...</p></a>
+	</div>
+	<div id="advanced">
+		<form>
+			<p>Embed:<input type="text"></p>
+			<p>Lonlat<input id="lonlat" type="text"></p>
+			<p>Zoom:<input id="zoom"type="text"></p>
 
-	</form>
+		</form>
+	</div>
 	<img class="logo" src="{% static "images/chamberlogo.jpg" %}"></img>
 </div>
 
 <a id="export-png" class="btn btn-default"><i class="fa fa-download"></i></a>
 <a id="image-download" download="map.png"></a>
   <script type="text/javascript">
-	  /*
-    async function load_counties() {
-        const pathArray = window.location.pathname.split('/')
-        const slug = pathArray.at(-2)
-	    const counties_url = `/api/map/` + slug + '/'
-	    const response = await fetch(counties_url)
-	    const json = await response.json()
-	    return(json)
-    }*/
 
-
-	const parsed = JSON.parse(mapControl.replaceAll('&quot','"').replaceAll(';',''))
+	const parsed = JSON.parse(mapControlJSON.replaceAll('&quot','"').replaceAll(';',''))
 	const upper_limit_array = [0]
 	const upper_limit_sort = function () {
 		for (i=0; i < parsed.length; i++) {
@@ -129,8 +142,8 @@
 					          })
 			          ],
 		      view: new ol.View({
-			            center: ol.proj.fromLonLat([-89.29, 40.63]),
-			            zoom: 6
+			            center: ol.proj.fromLonLat(mapLonLat),
+			            zoom: mapZoom
 			          })
 		    });
     styleFunction = function(feature) {
@@ -216,7 +229,7 @@ map.renderSync();
 render_counties()
 this.map.on('pointermove', function (e) {
     if (e.dragging) {
-	    document.getElementById("lonlat").value = map.getView().getCenter();
+	    document.getElementById("lonlat").value = ol.proj.toLonLat(map.getView().getCenter());
 	    document.getElementById("zoom").value = map.getView().getZoom();
 		}
 });

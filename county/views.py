@@ -71,6 +71,8 @@ def OLMapViewTwo(request, slug):
     context={}
     context['mapname'] = mapmeta.mapname
     context['mapdescription'] = mapmeta.description
+    context['maplonlat'] = mapmeta.lonlat
+    context['mapzoom'] = mapmeta.zoom
     context['mapdeclutter'] = mapmeta.declutter
     context['linecolor'] = str(mapmeta.line_color)
     context['fontcolor'] = str(mapmeta.font_color)
@@ -79,7 +81,8 @@ def OLMapViewTwo(request, slug):
     context['lineweight'] = str(mapmeta.line_weight)
     context['fontsize'] = mapmeta.font_size
     context['slug'] = mapslug
-    context['mapcontrol'] = mapcontroljson
+    context['mapcontroljson'] = mapcontroljson
+    context['mapcontrol'] = mapcontrol
     if (mapmeta.make_private == True) and not request.user.is_authenticated:
          return redirect('/accounts/login/?next=%s' % request.path)
     else:

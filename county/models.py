@@ -101,6 +101,8 @@ class mapMetaData(models.Model):
     dateadded=models.DateField(auto_now_add=True)
     datemodified=models.DateField(auto_now=True)
     description=models.CharField(max_length=500)
+    lonlat=models.CharField(max_length=500, default="-88.528,39.938")
+    zoom=models.FloatField(default=6)
     declutter=models.BooleanField(default=True)
     make_private=models.BooleanField(default=True)
     show_osm=models.BooleanField(default=True)
