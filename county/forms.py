@@ -60,7 +60,7 @@ class MapGeometryInput(forms.Form):
                 input_data.floatdata = line[1].replace(",", "")
                 input_data.description = line[2]
                 input_data.geometry = map_object.geometry
-                input_data.mapname = stateTiger.objects.get(mapname=self.cleaned_data["text"])
+                input_data.mapname = mapMetaData.objects.get(mapname=self.cleaned_data["text"])
                 input_data.save()
            elif self.cleaned_data["form_select"] == 'stateTiger':
                input_data = mapGeometry()
