@@ -7,6 +7,12 @@
     var mapName = "{{mapname}}";
     var mapDesc = "{{mapdescription}}";
     var mapControl = "{{mapcontrol}}";
+    var lineColor = "{{linecolor}}";
+    var fontColor = "{{fontcolor}}";
+    var fontInlayColor = "{{fontinlaycolor}}";
+    var fontInlayWeight = {{fontinlayweight}};
+    var lineWeight = {{lineweight}};
+    var fontSize = {{fontsize}};
     var mapDeclutterTemplate = "{{mapdeclutter}}";
     let mapDeclutter = (mapDeclutterTemplate == "True")
   </script>
@@ -19,17 +25,55 @@
 
 
 .map {
-      height: 700px;
-      width: 100%;
+      position: absolute;
+      height: 100%;
+      width: 80%;
+      z-index: -1;
+      margin-left: 20%;
           }
 	  
+.topbar {
+      position: absolute;
+      min-height: 20%;
+      width: 80%;
+      margin-left:20%;
+}
+
+.sidebar {
+	position: absolute;
+	width:20%;
+	background-color:rgba(255, 255, 255, 0.75);
+	height:100%;
+}
+ 
+		.logo {
+			position:absolute;
+			width: 80%;
+			height: auto;
+			object-fit:scale-down;
+			bottom: 0;
+			margin: 15px;
+		}
 </style>
 <body>
-	<div id="topbar" class="topbar">hello</div>
-	<div id="sidebar" class="sidebar">Sidebar</div>
-	<div id="map" class="map"></div>
-	<a id="export-png" class="btn btn-default"><i class="fa fa-download"></i> Download PNG</a>
-	    <a id="image-download" download="map.png"></a>
+	<!-- A<div id="topbar" class="topbar">hello</div>-->
+<div id="map" class="map"></div>
+<div id="sidebar" class="sidebar">
+	<h1>{{mapname}}</h1>
+	<h4>{{mapdescription}}</h4>
+	<!--<h4><script>map.getView().getCenter()</script></h4>-->
+	<h4><script></script></h4>
+	<form>
+		Embed:<input type="text">
+		Lonlat<input id="lonlat" type="text">
+		Zoom:<input id="zoom"type="text">
+
+	</form>
+	<img class="logo" src="{% static "images/chamberlogo.jpg" %}"></img>
+</div>
+
+<a id="export-png" class="btn btn-default"><i class="fa fa-download"></i></a>
+<a id="image-download" download="map.png"></a>
   <script type="text/javascript">
 	  /*
     async function load_counties() {
@@ -89,16 +133,8 @@
 			            zoom: 6
 			          })
 		    });
-/*
     styleFunction = function(feature) {
-	    let colors = ['red', 'blue', 'green', 'pink']
-	      let stroke = new ol.style.Stroke({ color: 'yellow', width: 1 });
-	      let randomIndex = Math.floor( Math.random() * 9 );
-	      let fill = new ol.style.Fill({ color: colors[randomIndex] });
-	      let style = new ol.style.Style({ stroke: stroke, fill: fill }); 
-	    return style;
-    }*/
-    styleFunction = function(feature) {
+		      console.log(fontInlayColor, fontInlayWeight)
 	      let countyname= feature.A.countyname 
 	      let floatvalue = feature.A.floatdata
 	      let offsetx = feature.A.offsetx
@@ -106,11 +142,14 @@
 	      let description = countyname + "\n" + floatvalue
 	      let text = new ol.style.Text({
 	 	 text: description, 
-	  	 font:'9px sans-serif', 
+	  	 font: 'bold ' + fontSize + 'px sans-serif', 
 	         overflow:true,  
+		 fill: new ol.style.Fill({color: fontColor}),
+	         stroke: new ol.style.Stroke({color: fontInlayColor, width:fontInlayWeight}),
 	  	 offsetX: offsetx, 
-	         offsetY:offsety })
-	      let stroke = new ol.style.Stroke({ color: 'yellow', width: 1 });
+	         offsetY: offsety 
+	      })
+	      let stroke = new ol.style.Stroke({ color: lineColor, width: lineWeight});
 	      let fill = new ol.style.Fill({ color: getColorLive(floatvalue) });
 	      let style = new ol.style.Style({ stroke: stroke, fill: fill, text: text }); 
 	    return style;
@@ -175,6 +214,12 @@ map.renderSync();
 });
 
 render_counties()
+this.map.on('pointermove', function (e) {
+    if (e.dragging) {
+	    document.getElementById("lonlat").value = map.getView().getCenter();
+	    document.getElementById("zoom").value = map.getView().getZoom();
+		}
+});
   </script>
 
 </html>

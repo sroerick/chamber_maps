@@ -29,7 +29,7 @@ class ExampleDataNokeySerializer(serializers.GeoFeatureModelSerializer):
 class UploadedDataSerializer(serializers.GeoFeatureModelSerializer):
     geometry = serializers.GeometryField(precision=2, remove_duplicates=True)
     class Meta:
-        fields = ("floatdata", "countyname", "description")
+        fields = ("floatdata", "countyname", "description", "offsetx", "offsety")
         geo_field = 'geometry'
         #lookup_field = 'slug'
         model = mapGeometry

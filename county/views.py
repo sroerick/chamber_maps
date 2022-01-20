@@ -61,6 +61,32 @@ class UploadedDataView(TemplateView):
         context['mapcontrol'] = mapcontroljson
         return context
 
+
+
+def OLMapViewTwo(request, slug):
+    mapslug = slug
+    mapmeta = mapMetaData.objects.get(slug=mapslug)
+    mapcontrol = mapControl.objects.filter(mapname_id=mapmeta.id)
+    mapcontroljson = serializers.serialize('json', mapcontrol)
+    context={}
+    context['mapname'] = mapmeta.mapname
+    context['mapdescription'] = mapmeta.description
+    context['mapdeclutter'] = mapmeta.declutter
+    context['linecolor'] = str(mapmeta.line_color)
+    context['fontcolor'] = str(mapmeta.font_color)
+    context['fontinlaycolor'] = str(mapmeta.font_inlay_color)
+    context['fontinlayweight'] = str(mapmeta.font_inlay_weight)
+    context['lineweight'] = str(mapmeta.line_weight)
+    context['fontsize'] = mapmeta.font_size
+    context['slug'] = mapslug
+    context['mapcontrol'] = mapcontroljson
+    if (mapmeta.make_private == True) and not request.user.is_authenticated:
+         return redirect('/accounts/login/?next=%s' % request.path)
+    else:
+        return render(request, "county/olmap.html", context)
+
+    
+
 class OLMapView(TemplateView):
     template_name = "county/olmap.html"
 
@@ -69,7 +95,6 @@ class OLMapView(TemplateView):
         mapslug = self.kwargs['slug']
         mapmeta = mapMetaData.objects.get(slug=mapslug)
         mapcontrol = mapControl.objects.filter(mapname_id=mapmeta.id)
-        mapcontroljson = serializers.serialize('json', mapcontrol)
         context['mapname'] = mapmeta.mapname
         context['mapdescription'] = mapmeta.description
         context['mapdeclutter'] = mapmeta.declutter

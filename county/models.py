@@ -102,6 +102,14 @@ class mapMetaData(models.Model):
     datemodified=models.DateField(auto_now=True)
     description=models.CharField(max_length=500)
     declutter=models.BooleanField(default=True)
+    make_private=models.BooleanField(default=True)
+    show_osm=models.BooleanField(default=True)
+    line_color=ColorField()
+    line_weight=models.IntegerField(default=3)
+    font_size=models.IntegerField(default=8)
+    font_color=ColorField()
+    font_inlay_color=ColorField()
+    font_inlay_weight=models.IntegerField(default=3)
 
     class Meta:
         verbose_name = "Map"

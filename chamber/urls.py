@@ -3,7 +3,7 @@ from django.urls import include, path
 from django.conf import settings
 
 from django.conf.urls.static import static
-from county.views import CountyDataView, ExampleDataView, ExampleDataNokeyView, UploadedDataView, IndexView, OLMapView
+from county.views import CountyDataView, ExampleDataView, ExampleDataNokeyView, UploadedDataView, IndexView, OLMapView, OLMapViewTwo
 from county.admin import mapAdmin, admin_csv_import
 from county.api_views import UploadedDataAPIView
 
@@ -13,7 +13,7 @@ urlpatterns = [
     path('import/', admin_csv_import.urls, name='importcsv'),
     path("map/", CountyDataView.as_view()),
     path("map/<slug:slug>/", UploadedDataView.as_view(), name="map"),
-    path("olmap/<slug:slug>/", OLMapView.as_view(), name="map"),
+    path("olmap/<slug:slug>/", OLMapViewTwo, name="map"),
     path("api/map/<slug:slug>/", UploadedDataAPIView.as_view()),
     path("example/", ExampleDataView.as_view()),
     path("example2/", ExampleDataNokeyView.as_view()),
