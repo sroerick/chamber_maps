@@ -22,6 +22,8 @@
     let mapDeclutter = (mapDeclutterTemplate == "True")
     var showOsmTemplate = "{{showosm}}";
     let showOsm = (showOsmTemplate == "True")
+    var toggleValueDisplay = "{{togglevaluedisplay}}";
+    let toggleValue = (toggleValueDisplay == "True")
 
 
     function toggle_visibility(id) {
@@ -159,12 +161,16 @@
 	  })
 	  }
     styleFunction = function(feature) {
-		      console.log(fontInlayColor, fontInlayWeight)
 	      let countyname= feature.A.countyname 
 	      let floatvalue = feature.A.floatdata
 	      let offsetx = feature.A.offsetx
 	      let offsety = feature.A.offsety
-	      let description = countyname + "\n" + floatvalue
+	      if (toggleValue == true) {
+		      description = countyname + "\n" + floatvalue
+	      }
+	      else {
+		      description = countyname
+	      }
 	      let text = new ol.style.Text({
 	 	 text: description, 
 	  	 font: 'bold ' + fontSize + 'px sans-serif', 

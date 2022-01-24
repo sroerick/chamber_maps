@@ -106,6 +106,7 @@ class mapMetaData(models.Model):
     declutter=models.BooleanField(default=True)
     make_private=models.BooleanField(default=True)
     show_osm=models.BooleanField(default=True)
+    toggle_value_display=models.BooleanField(default=True)
     line_color=ColorField()
     line_weight=models.IntegerField(default=3)
     font_size=models.IntegerField(default=8)

@@ -37,7 +37,7 @@ class csvDataTypeAdmin(admin.TabularInline):
 class mapAdmin(admin.ModelAdmin):
     model = mapMetaData
     inlines = (mapControlAdmin, csvDataTypeAdmin)
-    fields = ('mapname', 'description', 'slug', 'zoom', 'lonlat', "line_color", "line_weight", "font_size", "font_color", "font_inlay_color", "font_inlay_weight", "make_private", "declutter", "show_osm")
+    fields = ('mapname', 'description', 'slug', 'zoom', 'lonlat', "line_color", "line_weight", "font_size", "font_color", "font_inlay_color", "font_inlay_weight", "make_private", "declutter", "show_osm", "toggle_value_display")
     list_display=['mapname', 'description']
     change_list_template = 'county/mapMetaData/change_list.html'
 
