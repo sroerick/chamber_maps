@@ -49,7 +49,7 @@ class MapGeometryInput(forms.Form):
                 polygon_name_pre = line[0].lower()
                 polygon_name = polygon_name_pre.replace(" county", "")
                 try: 
-                    map_object = countyMap.objects.get(name__icontains=(polygon_name))
+                    map_object = countyMap.objects.get(name__iexact=(polygon_name))
                 except(countyMap.DoesNotExist):
                     try:
                         map_object = countyMap.objects.annotate( similarity = TrigramSimilarity('name', polygon_name), ).filter(similarity__gt=0.3).order_by('similarity')[0]
