@@ -50,7 +50,7 @@ class MapGeometryInput(forms.Form):
                 polygon_name = polygon_name_pre.replace(" county", "")
                 try: 
                     map_object = countyMap.objects.get(name__icontains=(polygon_name))
-                except(MultipleObjectsReturned):
+                except(countyMap.MultipleObjectsReturned):
                     try: 
                         map_object = countyMap.objects.get(name__iexact=(polygon_name))
                     except(countyMap.DoesNotExist):
