@@ -110,7 +110,7 @@ class mapMetaData(models.Model):
     line_color=ColorField()
     line_weight=models.IntegerField(default=3)
     font_size=models.IntegerField(default=8)
-    font_color=ColorField()
+    font_color=ColorField(default="#000000")
     font_inlay_color=ColorField()
     font_inlay_weight=models.IntegerField(default=3)
 
